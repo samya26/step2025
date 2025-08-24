@@ -1,0 +1,56 @@
+// PRACTICE PROBLEM 3
+import java.util.*;
+public class ASCIIProcessor {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        for (char ch : input.toCharArray()) {
+            System.out.println(ch + " : " + (int) ch + " - " + classifyCharacter(ch));
+            if (Character.isLetter(ch)) {
+                System.out.println("Upper: " + Character.toUpperCase(ch) + " " + (int) Character.toUpperCase(ch));
+                System.out.println("Lower: " + Character.toLowerCase(ch) + " " + (int) Character.toLowerCase(ch));
+                System.out.println("Diff: " + (int)(Character.toLowerCase(ch) - Character.toUpperCase(ch)));
+            }
+        }
+        System.out.println(caesarCipher(input, 3));
+        displayASCIITable(65,90);
+        int[] arr = stringToASCII(input);
+        System.out.println(Arrays.toString(arr));
+        System.out.println(asciiToString(arr));
+        scanner.close();
+    }
+    public static String classifyCharacter(char ch) {
+        if (Character.isUpperCase(ch)) return "Uppercase Letter";
+        if (Character.isLowerCase(ch)) return "Lowercase Letter";
+        if (Character.isDigit(ch)) return "Digit";
+        return "Special Character";
+    }
+    public static char toggleCase(char ch) {
+        if (Character.isUpperCase(ch)) return (char)(ch+32);
+        if (Character.isLowerCase(ch)) return (char)(ch-32);
+        return ch;
+    }
+    public static String caesarCipher(String text, int shift) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : text.toCharArray()) {
+            if (Character.isLetter(c)) {
+                char base = Character.isUpperCase(c)?'A':'a';
+                sb.append((char)((c-base+shift)%26+base));
+            } else sb.append(c);
+        }
+        return sb.toString();
+    }
+    public static void displayASCIITable(int start, int end) {
+        for (int i=start;i<=end;i++) System.out.println(i+" : "+(char)i);
+    }
+    public static int[] stringToASCII(String text) {
+        int[] arr = new int[text.length()];
+        for (int i=0;i<text.length();i++) arr[i]=(int)text.charAt(i);
+        return arr;
+    }
+    public static String asciiToString(int[] asciiValues) {
+        StringBuilder sb = new StringBuilder();
+        for (int v:asciiValues) sb.append((char)v);
+        return sb.toString();
+    }
+}
